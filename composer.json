@@ -1,0 +1,21 @@
+{
+    "name": "newbie67/telegram-notifier",
+    "description": "Easy telegram notifier, based on php-curl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksey Zorin",
+            "email": "azegence@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "newbie67\\TelegramNotifier\\": "src"
+        }
+    },
+    "require": {
+        "php": "^7",
+        "ext-curl": "*",
+        "ext-json": "*"
+    }
+}
