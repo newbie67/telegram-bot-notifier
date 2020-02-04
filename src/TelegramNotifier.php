@@ -26,21 +26,29 @@ class TelegramNotifier implements TelegramNotifierInterface
      */
     private $dateFormat;
 
+    /**
+     * @var string
+     */
+    private $messageTemplate;
+
     const HOST = 'https://api.telegram.org/bot';
 
     /**
      * @param string          $token
      * @param string[]|string $chatOrChannelIds
      * @param string          $dateFormat
+     * @param string          $messageTemplate
      */
     public function __construct(
         $token,
         $chatOrChannelIds,
-        $dateFormat = 'Y-m-d H:i:s'
+        $dateFormat = 'Y-m-d H:i:s',
+        $messageTemplate = '{%date%}' . PHP_EOL . PHP_EOL . '{%message%}'
     ) {
         $this->token   = $token;
         $this->chatIds = is_scalar($chatOrChannelIds) ? [$chatOrChannelIds] : $chatOrChannelIds;
         $this->dateFormat = $dateFormat;
+        $this->messageTemplate = $messageTemplate;
     }
 
     /**
@@ -81,6 +89,10 @@ class TelegramNotifier implements TelegramNotifierInterface
      */
     private function compileMessage(string $message): string
     {
-        return date($this->dateFormat) . PHP_EOL . $message;
+        return str_replace(
+            ['{%date%}', '{%message%}'],
+            [date($this->dateFormat), $message],
+            $this->messageTemplate
+        );
     }
 }
